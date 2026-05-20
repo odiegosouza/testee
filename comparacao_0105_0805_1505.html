@@ -1,0 +1,310 @@
+<!doctype html>
+	<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Relatorio Promocoes Don Corleone</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+		
+	<style>
+		:root {
+			--bg: #f5f7fb;
+			--card: #ffffff;
+			--ink: #0f172a;
+			--muted: #475569;
+			--line: #e2e8f0;
+			--brand: #0b4f6c;
+			--brand-2: #1d8f8a;
+			--ok: #198754;
+			--bad: #b42318;
+			--shadow: 0 14px 40px rgba(15, 23, 42, 0.10);
+		}
+		* { box-sizing: border-box; }
+		body {
+			margin: 0;
+			font-family: Manrope, -apple-system, Segoe UI, Arial, sans-serif;
+			color: var(--ink);
+			background:
+				radial-gradient(circle at 15% -10%, #dbeafe 0%, transparent 30%),
+				radial-gradient(circle at 100% 0%, #ccfbf1 0%, transparent 25%),
+				var(--bg);
+		}
+		.wrap { max-width: 1220px; margin: 0 auto; padding: 34px 22px 44px; }
+		.hero {
+			background: #000;
+			color: #fff;
+			border-radius: 24px;
+			padding: 30px 32px;
+			box-shadow: var(--shadow);
+		}
+		.hero-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 24px; }
+		h1 { margin: 0; font-size: 34px; letter-spacing: -0.02em; }
+		.hero p { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: rgba(255,255,255,.88); }
+		.hero-logo img { max-height: 90px; display: block; background: transparent; filter: grayscale(1) brightness(.9) contrast(1.2); mix-blend-mode: screen; }
+		.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 24px; }
+		.kpi { background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.25); border-radius: 14px; padding: 13px 14px; }
+		.kpi small { display:block; font-size:12px; opacity:.85; }
+		.kpi b { display:block; font-size:22px; margin-top:3px; }
+		.cards-2 { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+		.card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 10px 24px rgba(15,23,42,.06); padding: 20px; }
+		.card h2 { margin:0 0 14px; font-size:20px; letter-spacing:-.02em; }
+		.days { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:12px; }
+		.day-card { border:1px solid var(--line); border-radius:14px; padding:14px; background:#fbfdff; }
+		.day-head { font-size:17px; font-weight:800; color: var(--brand); margin-bottom:8px; }
+		.metric-line { display:flex; justify-content:space-between; font-size:13px; margin-top:8px; color: var(--muted); }
+		.metric-line strong { color: var(--ink); font-size:13px; }
+		.bar-wrap { height:8px; background:#eaf0f6; border-radius:999px; overflow:hidden; margin-top:6px; }
+		.bar { height:100%; border-radius:999px; }
+		.bar.pedidos { background: linear-gradient(90deg, #1d8f8a, #2dd4bf); }
+		.bar.gmv { background: linear-gradient(90deg, #0b4f6c, #3b82f6); }
+		.mini-grid { margin-top:10px; display:grid; gap:5px; }
+		.mini-grid div { display:flex; justify-content:space-between; gap:8px; }
+		.mini-grid small { color: var(--muted); font-size:11px; }
+		.mini-grid b { font-size:12px; }
+		.insights { margin: 0; padding-left: 18px; }
+		.insights li { margin:10px 0; color:#1f2937; line-height:1.45; }
+		.table-card { margin-top: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 10px 24px rgba(15,23,42,.06); padding: 20px; }
+		.table-card h2 { margin:0 0 14px; font-size:20px; letter-spacing:-.02em; }
+		.table-wrap { overflow:auto; border-radius:14px; border:1px solid var(--line); }
+		table { width:100%; border-collapse:collapse; background:#fff; min-width:920px; }
+		th, td { padding:12px 10px; border-bottom:1px solid var(--line); text-align:left; font-size:13px; }
+		thead th { background:#f8fafc; font-size:12px; text-transform:uppercase; letter-spacing:.03em; color:#334155; }
+		tbody tr:hover { background:#f8fbff; }
+		.shop-name { font-weight:800; }
+		.shop-brand { color: var(--muted); font-size:12px; margin-top:4px; }
+		.strong { font-weight:800; }
+		.chip { display:inline-block; padding:5px 8px; border-radius:999px; font-size:12px; font-weight:700; border:1px solid transparent; }
+		.chip.pos { background:#e8f8ef; color: var(--ok); border-color:#b8ebcb; }
+		.chip.neg { background:#fdecec; color: var(--bad); border-color:#f6c3c1; }
+		.footer { margin-top:16px; color:#64748b; font-size:12px; text-align:right; }
+		@media (max-width: 1080px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cards-2 { grid-template-columns: 1fr; } .days { grid-template-columns: 1fr; } }
+		@media (max-width: 650px) { .hero-header { flex-direction: column-reverse; align-items: flex-start; gap: 16px; } .hero-logo img { max-height: 70px; } }
+	</style>
+	
+	</head>
+	<body>
+		<div class="wrap">
+			<section class="hero">
+				<div class="hero-header">
+					<div class="hero-text">
+						<h1>Don Corleone | Pizza Day</h1>
+						<p>Performance dos dias 01/05, 08/05 e 15/05 com foco em Pedidos, GMV, crescimento e leitura executiva por loja.</p>
+					</div>
+					<div class="hero-logo">
+						<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRK1NC04iFAT2m9-AU9D3D1ch28-_odJakQQg&s" alt="Logo Don Corleone">
+					</div>
+				</div>
+				<div class="kpis">
+					<div class="kpi"><small>Pedidos no periodo</small><b>807</b></div>
+					<div class="kpi"><small>GMV no periodo</small><b>R$ 76,099.25</b></div>
+					<div class="kpi"><small>Ticket medio total</small><b>R$ 94.30</b></div>
+					<div class="kpi"><small>Melhor dia de GMV</small><b>15/05</b></div>
+				</div>
+			</section>
+
+			<div class="cards-2">
+				<section class="card">
+					<h2>Evolucao por dia promocional</h2>
+					<div class="days">
+			<div class="day-card">
+				<div class="day-head">01/05</div>
+				<div class="metric-line"><span>Pedidos</span><strong>261</strong></div>
+				<div class="bar-wrap"><div class="bar pedidos" style="width:61.8%"></div></div>
+				<div class="metric-line"><span>GMV</span><strong>R$ 19,457.74</strong></div>
+				<div class="bar-wrap"><div class="bar gmv" style="width:50.1%"></div></div>
+				<div class="mini-grid">
+					<div><small>Ticket</small><b>R$ 74.55</b></div>
+					
+				</div>
+			</div>
+		
+			<div class="day-card">
+				<div class="day-head">08/05</div>
+				<div class="metric-line"><span>Pedidos</span><strong>124</strong></div>
+				<div class="bar-wrap"><div class="bar pedidos" style="width:29.4%"></div></div>
+				<div class="metric-line"><span>GMV</span><strong>R$ 17,820.75</strong></div>
+				<div class="bar-wrap"><div class="bar gmv" style="width:45.9%"></div></div>
+				<div class="mini-grid">
+					<div><small>Ticket</small><b>R$ 143.72</b></div>
+					<div><small>Cresc. Pedidos</small><b>-52.5%</b></div>
+					<div><small>Cresc. GMV</small><b>-8.4%</b></div>
+				</div>
+			</div>
+		
+			<div class="day-card">
+				<div class="day-head">15/05</div>
+				<div class="metric-line"><span>Pedidos</span><strong>422</strong></div>
+				<div class="bar-wrap"><div class="bar pedidos" style="width:100.0%"></div></div>
+				<div class="metric-line"><span>GMV</span><strong>R$ 38,820.76</strong></div>
+				<div class="bar-wrap"><div class="bar gmv" style="width:100.0%"></div></div>
+				<div class="mini-grid">
+					<div><small>Ticket</small><b>R$ 91.99</b></div>
+					<div><small>Cresc. Pedidos</small><b>240.3%</b></div>
+					<div><small>Cresc. GMV</small><b>117.8%</b></div>
+				</div>
+			</div>
+		</div>
+				</section>
+				<section class="card">
+					<h2>Highlights</h2>
+					<ul class="insights"><li><b>15/05</b> foi o melhor dia de receita dentro do recorte promocional.</li><li>O maior ticket medio diário ocorreu em <b>08/05</b>, indicando sexta média mais alta.</li><li>A loja lider em GMV acumulado foi <b>Corleone - Pacaembú 24H</b>.</li><li>Maior alta absoluta de GMV entre 01/05 e 15/05: <b>Corleone - Tatuapé 26 anos</b>.</li><li>Maior alta percentual no mesmo periodo: <b>Corleone - Tatuapé 26 anos</b>.</li><li>Maior queda absoluta no periodo: <b>Corleone - Campo belo 26 anos</b>.</li></ul>
+				</section>
+			</div>
+
+			
+	<section class="card" style="margin-top:18px;">
+		<h2>Top lojas por GMV (recorte promocional)</h2>
+		<div class="table-wrap">
+			<table>
+				<thead>
+					<tr>
+						<th>Loja</th>
+						<th>GMV 01/05</th>
+						<th>GMV 08/05</th>
+						<th>GMV 15/05</th>
+						<th>GMV Total</th>
+						<th>Pedidos</th>
+						<th>Ticket Medio</th>
+						<th>Cresc. 01 -> 15</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+			<tr>
+				<td>
+					<div class="shop-name">Corleone - Pacaembú 24H</div>
+					<div class="shop-brand">Don Corleone Pizza</div>
+				</td>
+				<td>R$ 7,137.49</td>
+				<td>R$ 3,681.60</td>
+				<td>R$ 9,804.41</td>
+				<td><b>R$ 20,623.50</b></td>
+				<td>220</td>
+				<td>R$ 93.74</td>
+				<td><span class="chip pos">37.4%</span></td>
+			</tr>
+		
+			<tr>
+				<td>
+					<div class="shop-name">Corleone - Morumbi 26 anos</div>
+					<div class="shop-brand">Don Corleone Pizza</div>
+				</td>
+				<td>R$ 2,413.38</td>
+				<td>R$ 3,194.87</td>
+				<td>R$ 5,823.66</td>
+				<td><b>R$ 11,431.91</b></td>
+				<td>118</td>
+				<td>R$ 96.88</td>
+				<td><span class="chip pos">141.3%</span></td>
+			</tr>
+		
+			<tr>
+				<td>
+					<div class="shop-name">Corleone - Tatuapé 26 anos</div>
+					<div class="shop-brand">Don Corleone Pizza</div>
+				</td>
+				<td>R$ 111.08</td>
+				<td>R$ 1,798.42</td>
+				<td>R$ 6,929.13</td>
+				<td><b>R$ 8,838.63</b></td>
+				<td>101</td>
+				<td>R$ 87.51</td>
+				<td><span class="chip pos">6138.0%</span></td>
+			</tr>
+		
+			<tr>
+				<td>
+					<div class="shop-name">Don Corleone - Guarulhos</div>
+					<div class="shop-brand">Don Corleone Pizza</div>
+				</td>
+				<td>R$ 1,404.48</td>
+				<td>R$ 2,839.84</td>
+				<td>R$ 2,767.12</td>
+				<td><b>R$ 7,011.44</b></td>
+				<td>65</td>
+				<td>R$ 107.87</td>
+				<td><span class="chip pos">97.0%</span></td>
+			</tr>
+		
+			<tr>
+				<td>
+					<div class="shop-name">Don Corleone - Osasco</div>
+					<div class="shop-brand">Don Corleone Pizza</div>
+				</td>
+				<td>R$ 615.95</td>
+				<td>R$ 2,637.90</td>
+				<td>R$ 3,746.85</td>
+				<td><b>R$ 7,000.70</b></td>
+				<td>61</td>
+				<td>R$ 114.77</td>
+				<td><span class="chip pos">508.3%</span></td>
+			</tr>
+		
+			<tr>
+				<td>
+					<div class="shop-name">Corleone - Campo belo 26 anos</div>
+					<div class="shop-brand">Don Corleone Pizza</div>
+				</td>
+				<td>R$ 3,891.80</td>
+				<td>R$ 280.15</td>
+				<td>R$ 2,662.51</td>
+				<td><b>R$ 6,834.46</b></td>
+				<td>85</td>
+				<td>R$ 80.41</td>
+				<td><span class="chip neg">-31.6%</span></td>
+			</tr>
+		
+			<tr>
+				<td>
+					<div class="shop-name">Corleone - Santo Amaro 26 anos</div>
+					<div class="shop-brand">Don Corleone Pizza</div>
+				</td>
+				<td>R$ 2,168.29</td>
+				<td>R$ 1,804.55</td>
+				<td>R$ 2,255.83</td>
+				<td><b>R$ 6,228.67</b></td>
+				<td>68</td>
+				<td>R$ 91.60</td>
+				<td><span class="chip pos">4.0%</span></td>
+			</tr>
+		
+			<tr>
+				<td>
+					<div class="shop-name">Corleone - São Bernardo do Campo 26 anos</div>
+					<div class="shop-brand">Don Corleone Pizza</div>
+				</td>
+				<td>R$ 1,530.76</td>
+				<td>R$ 388.69</td>
+				<td>R$ 2,318.29</td>
+				<td><b>R$ 4,237.74</b></td>
+				<td>52</td>
+				<td>R$ 81.49</td>
+				<td><span class="chip pos">51.4%</span></td>
+			</tr>
+		
+			<tr>
+				<td>
+					<div class="shop-name">Don Corleone - Vila Mariana</div>
+					<div class="shop-brand">Don Corleone Pizza</div>
+				</td>
+				<td>R$ 184.51</td>
+				<td>R$ 1,194.73</td>
+				<td>R$ 2,512.96</td>
+				<td><b>R$ 3,892.20</b></td>
+				<td>37</td>
+				<td>R$ 105.19</td>
+				<td><span class="chip pos">1262.0%</span></td>
+			</tr>
+		
+				</tbody>
+			</table>
+		</div>
+	</section>
+	
+
+			
+		</div>
+	</body>
+	</html>
